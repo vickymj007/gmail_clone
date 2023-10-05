@@ -1,7 +1,11 @@
 import styled from '@emotion/styled'
 import { Close, Delete } from '@mui/icons-material'
 import { Box, Button, Dialog, InputBase, TextField, Typography } from '@mui/material'
+import axios from 'axios'
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateSentMail } from '../redux/userSlice'
 
 const dialogStyle = {
     height:"90%",
@@ -50,8 +54,11 @@ const SendButton = styled(Button)({
 })
 
 const ComposeMail = ({openDialog, setOpenDialog}) => {
+    const dispatch = useDispatch()
 
-    const [data,setData]= useState({to:"",subject:"",body:""})
+    const {user} = useSelector(state => state.user)
+
+    const [data,setData]= useState({from: user.email, to:"",subject:"",body:""})
     
     const closeComposeMail = (e)=>{
         e.preventDefault()
@@ -62,10 +69,16 @@ const ComposeMail = ({openDialog, setOpenDialog}) => {
         setData({...data,[e.target.name]:e.target.value})
     }
 
-    const sendMail = (e)=>{
+    const sendMail = async (e)=>{
         e.preventDefault()
-        console.log(data.to,data.subject,data.body)
-        setOpenDialog(false)
+        try {
+            const response = await axios.post("/send-email",data)
+            dispatch(updateSentMail(data))
+            toast.success(response.data.msg)
+            setOpenDialog(false)
+        } catch (error) {
+            toast.error(error.response.data.msg)
+        }
     }
 
   return (

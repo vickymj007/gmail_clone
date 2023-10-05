@@ -13,12 +13,14 @@ import {Toaster} from 'react-hot-toast'
 import { useDispatch} from 'react-redux'
 import { useEffect } from 'react';
 import { signInUser } from './redux/userSlice';
+import FullEmail from './layouts/FullEmail';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route>
     <Route element={<AuthRequired/>}>
       <Route path='/' element={<Main/>}>
         <Route index element={<Inbox/>}/>
+        <Route path='full-email/:id' element={<FullEmail/>}/>
         <Route path='starred' element={<Starred/>}/>
         <Route path='drafts' element={<Drafts/>}/>
         <Route path='important' element={<Important/>}/>

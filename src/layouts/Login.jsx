@@ -27,6 +27,20 @@ const Login = () => {
             if(!loginEmail || !loginPass){
                 return toast.error("Please fill in all the fields")
             }
+            try {
+                const response = await axios.post('/signin',{
+                    email:loginEmail,
+                    password:loginPass
+                })
+                
+                dispatch(signInUser(response.data))
+                localStorage.setItem('user', JSON.stringify(response.data))
+                toast.success("Successfully signed in...")
+                navigate('/')
+                
+            } catch (error) {
+                toast.error(error.response.data)
+            }
         }else{
             if(!signUpEmail || !signUpName || !signUpPass){
                 return toast.error("Please fill in all the fields")
@@ -110,6 +124,11 @@ const Login = () => {
             <div className='flex justify-between w-full'>
                 <Button variant='text' onClick={()=>setLoginView(!loginView)} >{loginView ? "Create Account ?" : "Login ?"}</Button>
                 <Button variant='contained' type='submit'>{loginView ? "Sign In" : "Sign Up"}</Button>
+            </div>
+            <div className="flex text-center text-xs flex-col bg-blue-400 p-4 rounded">
+                <p className='font-bold '>Use the below mentioned Logins to test the app:</p>
+                <p><span className='font-bold'>Email: </span>sample@gmail.com</p>
+                <p><span className='font-bold'>Password: </span>Sample@123</p>
             </div>
         </form>
     </div>

@@ -8,7 +8,8 @@ import {store} from './redux/store.js'
 
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:9000/api/users'
+// axios.defaults.baseURL = 'http://localhost:9000/api/users'
+axios.defaults.baseURL = 'https://gmail-clone-auos.onrender.com/api/users'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
