@@ -26,6 +26,7 @@ const Trash = () => {
 
   return (
     <div className='bg-white'>
+      <p className='p-2 text-center'>Deleted mails will be displayed here..</p>
       <ul>
         {user.trash.map(mail=>(
           <li key={mail.id} className='text-sm flex items-center gap-3 p-2 border-b-[1px] border-gray hover:bg-[#f6f8fc] cursor-pointer'>

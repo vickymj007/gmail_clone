@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import {AppBar, Box, InputBase, Toolbar, styled} from '@mui/material'
+import {AppBar, Avatar, Box, InputBase, Toolbar, styled} from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AppsIcon from '@mui/icons-material/Apps';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import TuneIcon from '@mui/icons-material/Tune';
 import { gmail_logo } from '../constants/constant';
 import { signOutUser } from '../redux/userSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deepPurple } from '@mui/material/colors';
 
 const StyledAppBar = styled(AppBar)({
     background:"#f6f8fc",
@@ -47,6 +47,8 @@ const OptionsWrapper = styled(Box)({
 
 const Header = ({toggleDrawer}) => {
 
+  const {user} = useSelector(state => state.user)
+
   const dispatch = useDispatch()
   const [showSignOutBtn, setShowSignOutBtn] = useState(false)
 
@@ -69,7 +71,10 @@ const Header = ({toggleDrawer}) => {
               <HelpOutlineOutlinedIcon color='action'/>
               <SettingsOutlinedIcon color='action'/>
               <AppsIcon color='action'/>
-              <AccountCircleOutlinedIcon onClick={()=>setShowSignOutBtn(!showSignOutBtn)} className='cursor-pointer' color='action'/>
+              <Avatar 
+                sx={{width:26,height:26, fontSize:16, bgcolor:deepPurple[500], cursor:"pointer"}}
+                onClick={()=>setShowSignOutBtn(!showSignOutBtn)}
+              >{user.name.slice(0,1)}</Avatar>
               <div className={`bg-slate-300 absolute p-5 top-7 rounded ${showSignOutBtn ? "block" : "hidden"}`}>
                 <button onClick={handleSignOut} className='bg-black py-1 px-3 rounded-full'>Signout</button>
               </div>
